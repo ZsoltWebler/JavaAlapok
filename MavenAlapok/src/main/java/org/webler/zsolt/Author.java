@@ -1,34 +1,28 @@
 package org.webler.zsolt;
 
+import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
+@NoArgsConstructor
+@Getter
+@Setter
 public class Author {
 
+    @Size(min = 3, max = 20, message = "Name must be between 3 and 20 characters")
     private String name;
     private final List<Book> publishedBooks = new ArrayList<>();
-
-    public Author() {
-    }
-
-    public Author(String name) {
+    public Author(String name){
         this.name = name;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Book> getPublishedBooks() {
-        return publishedBooks;
-    }
-
-    public void addBook(Book book){
+    public void addBook(Book book) {
         this.publishedBooks.add(book);
     }
 }

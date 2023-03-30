@@ -1,29 +1,64 @@
 package org.webler.zsolt;
 
-import java.time.LocalDate;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.net.URL;
+import java.util.*;
 
 public class Main {
-    public static void main(String[] args){
 
-        Author author = new Author("Robert C. Martin");
+    public static Map<Developer, List<Developer>> pullRequestLottery(List<Developer> developerList) {
 
-        Book clean_code = new Book(
-                "Clean Code",
-                "Code is clean if it can be understood easily – by everyone on the team. Clean code can be read and enhanced by a developer other than its original author. With understandability comes readability, changeability, extensibility and maintainability.",
-                "9788175257665",
-                LocalDate.now(),
-                500,
-                author);
+        Map<Developer, List<Developer>> map = new HashMap<>();
+        Random rnd = new Random();
 
-        Book clean_architecture = new Book(
-                "Clean Code",
-                "Clean architecture is a software design philosophy that separates the elements of a design into ring levels. An important goal of clean architecture is to provide developers with a way to organize code in such a way that it encapsulates the business logic but keeps it separate from the delivery mechanism.",
-                "9788175257665",
-                LocalDate.now(),
-                500,
-                author);
+        for (Developer developer : developerList) {
+            List<Developer> tmp = new ArrayList<>(developerList);
+            tmp.remove(developer);
+            Developer developer_1 = tmp.get(rnd.nextInt(tmp.size() - 1));
+            tmp.remove(developer_1);
+            Developer developer_2 = tmp.get(rnd.nextInt(tmp.size() - 1));
+            map.put(developer, Arrays.asList(developer_1, developer_2));
+        }
 
+        return map;
+    }
 
+    public static void main(String[] args) throws Exception {
+
+        Developer dev_1 = new Developer(
+                "Kis",
+                "Jakab",
+                new PullRequest(
+                        "KisJakab",
+                        new URL("http://google.com"),
+                        new URL("http://google.com")));
+
+        Developer dev_2 = new Developer(
+                "Nagy",
+                "Ottó",
+                new PullRequest(
+                        "KisJakab",
+                        new URL("http://google.com"),
+                        new URL("http://google.com")));
+
+        Developer dev_3 = new Developer(
+                "Közepes",
+                "Géza",
+                new PullRequest(
+                        "KisJakab",
+                        new URL("http://google.com"),
+                        new URL("http://google.com")));
+
+        Developer dev_4 = new Developer(
+                "Antal",
+                "Zsolt",
+                new PullRequest(
+                        "KisJakab",
+                        new URL("http://google.com"),
+                        new URL("http://google.com")));
+
+        JsonPrinter.print(pullRequestLottery(Arrays.asList(dev_1, dev_2, dev_3, dev_4)));
 
     }
 }
